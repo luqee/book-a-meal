@@ -31,3 +31,13 @@ nav ul li{
   cursor: pointer;
   padding-right: 5px;
 }
+
+div#landing {
+  display: flex;
+}
+div#landing div#banner{
+  flex-basis: 80%;
+}
+div#landing div#login{
+  flex-basis: 20%;
+}
