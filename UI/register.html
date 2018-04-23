@@ -18,12 +18,26 @@
         </header>
 
         <div class="content">
-            <div div="reg-form">
+            <div class="form-holder">
                 <form id="register-form">
-                    <label for="email">E-mail :<input type="text" name="email" placeholder="E-mail address"></label>
-                    <label for="uname">Username :<input type="text" name="uname" placeholder="Name to be used in system"></label>
-                    <label for="password">Password :<input type="password" name="password" placeholder="Your Password"></label>
-                    <label for="re-pass">Re-Pass :<input type="text" name="re-pass" placeholder="Repeat the password"></label>
+                    <div class="form-row">
+                      <label for="email">E-mail :</label>
+                      <input type="text" name="email" placeholder="E-mail address">
+                    </div>
+                    <div class="form-row">
+                      <label for="uname">Username :</label>
+                      <input type="text" name="uname" placeholder="Name to be used in system">
+                    </div>
+
+                    <div class="form-row">
+                      <label for="password">Password :</label>
+                      <input type="password" name="password" placeholder="Your Password">
+                    </div>
+
+                    <div class="form-row">
+                      <label for="re-pass">Re-Pass :</label>
+                      <input type="text" name="re-pass" placeholder="Repeat the password">
+                    </div>
 
                     <button id="btn-reg">Register</button><br> or <a href="login.html">login here</a>.
                 </form>
