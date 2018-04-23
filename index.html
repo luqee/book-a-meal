@@ -21,10 +21,34 @@
         <div class="content">
             <div id="landing">
                 <div id="banner">
-                    <p>Welcome to book-a-meal web application, where your daily meal neads are always met!!!</p>
+                    <div class="slideshow-container">
+                      <div class="mySlides fade">
+                        <img src="./UI/img/chef.jpg" />
+                        <div class="text">Meals by some of the top chefs.</div>
+                      </div>
+
+                      <div class="mySlides fade">
+                        <img src="./UI/img/diner.jpg" />
+                        <div class="text">The meals here make you sad to leave.</div>
+                      </div>
+
+                      <div class="mySlides fade">
+                        <img src="./UI/img/food.jpg" />
+                        <div class="text">A wide rande of selections</div>
+                      </div>
+
+                      <!-- Next and previous buttons -->
+                      <a class="prev">&#10094;</a>
+                      <a class="next">&#10095;</a>
+                    </div>
+                    <div style="text-align:center">
+                      <span class="dot" ></span>
+                      <span class="dot" ></span>
+                      <span class="dot" ></span>
+                    </div>
                 </div>
                 <div id="login">
-                    <form id="login-form" action="index.html" method="post">
+                    <form id="login-form">
                         <label for="email">E-mail :<input type="text" name="email" placeholder="E-mail address"></label>
                         <label for="password">Password :<input type="password" name="password" placeholder="Your Password"></label>
                         <button id="btn-login">Login</button><br>
