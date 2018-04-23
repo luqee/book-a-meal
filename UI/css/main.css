@@ -25,6 +25,7 @@ footer {
   bottom: 0;
   height: 100px;
   width: 100%;
+  text-align: center;
 }
 
 .content {
@@ -58,4 +59,22 @@ div#landing div#banner{
 }
 div#landing div#login{
   flex-basis: 20%;
+}
+
+/* forms */
+.form-holder {
+  width: 30%;
+  margin: auto;
+}
+
+.form-row {
+  display: flex;
+}
+
+.form-row label{
+  flex: 1;
+}
+
+.form-row input{
+  flex: 1;
 }
