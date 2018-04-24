@@ -64,7 +64,7 @@ div#landing div#login{
 }
 /* Slideshow style */
 .slideshow-container {
-  width: 60%;
+  width: 100%;
   position: relative;
   margin: auto;
 }
