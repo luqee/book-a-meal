@@ -2,13 +2,13 @@
 Book-A-Meal is an application that allows customers to make food orders and helps the food vendor know what the customers want to eat.
 
 # Installation
--Download or clone the contents of this repository.
--Open index.html with a browser of your choice.
+- Download or clone the contents of this repository.
+- Open index.html with a browser of your choice.
 
 # Built with
--HTML
--CSS
--Javascript
+- HTML
+- CSS
+- Javascript
 
 # Github pages link
 
