@@ -38,9 +38,11 @@ header div#logo {
 }
 
 nav {
-  flex-basis: 90%;
+  flex-basis: 80%;
 }
-
+div#auth-btns {
+  flex-basis: 10%;
+}
 nav ul {
   list-style-type: none;
 
