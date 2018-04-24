@@ -158,3 +158,32 @@ div#landing div#login{
 .form-row input{
   flex: 1;
 }
+
+/* Dashboard stylesheet */
+
+.content {
+  display: flex;
+
+}
+
+.content .panel{
+  padding: 5px;
+  flex-basis: 30%;
+  background-color:#0c92d1;
+}
+.content .panel ul{
+  list-style-type: none;
+}
+.content .panel li{
+  text-decoration: none;
+}
+.content .panel li.current{
+  background-color: #074e6f;
+}
+.content .panel li a{
+  text-decoration: none;
+}
+.content .view{
+  flex-basis: 70%;
+  padding: 10px
+}
