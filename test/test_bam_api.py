@@ -26,7 +26,6 @@ class BamApiTestCase(unittest.TestCase):
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 201)
         self.assertTrue(result["message"] == "Successfull signup")
-        self.assertEqual(result["userid"], "john")
 
 
     def test_user_login(self):
