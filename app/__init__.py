@@ -23,4 +23,18 @@ class SignUp(Resource):
         if result == 'registered':
             return make_response(jsonify({"message": "Successfull signup",}), 201)
 
+login_parser = reqparse.RequestParser()
+login_parser.add_argument('email')
+login_parser.add_argument('password')
+class Login(Resource):
+    def post(self):
+        data = login_parser.parse_args()
+        email = data['email']
+        password = data['password']
+        result = bam_application.login_user(email, password)
+        print(result)
+        if result == 'logged_in':
+            return make_response(jsonify({"message": "Successfull login"}), 200)
+
 api.add_resource(SignUp, '/api/v1/auth/signup')
+api.add_resource(Login, '/api/v1/auth/login')

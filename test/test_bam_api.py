@@ -34,7 +34,7 @@ class BamApiTestCase(unittest.TestCase):
         This test checks for a successful login by inspecting the status code and
         a key 'message'.
         """
-        response = self.app.post('api/v1/auth/signup', data = json.dumps(self.user) , content_type = 'application/json')
+        response = self.app.post('api/v1/auth/login', data = json.dumps({'username': self.user['username'], 'password': self.user['password']}) , content_type = 'application/json')
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(result["message"] ==  "Successfull login")
