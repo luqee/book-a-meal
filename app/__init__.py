@@ -76,9 +76,15 @@ class Meals(Resource):
         if result == 'Updated':
             return make_response(jsonify({"message": "Successful update"}), 201)
 
+    @use_args(meal_args)
+    def delete(self, args):
+        result = bam_application.delete_meal_options(args['mealId'])
+        if result == 'Deleted':
+            return make_response(jsonify({"message": "Successful removal"}), 201)
+
 
 
 
 api.add_resource(SignUp, '/api/v1/auth/signup')
 api.add_resource(Login, '/api/v1/auth/login')
-api.add_resource(Meals, '/api/v1/meals')
+api.add_resource(Meals, '/api/v1/meals', methods=['POST', 'GET', 'PUT', 'DELETE'])

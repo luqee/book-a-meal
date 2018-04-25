@@ -64,3 +64,11 @@ class BamApplication():
                 meal.price = meal_opt.price
                 result = 'Updated'
         return result
+
+    def delete_meal_options(self, meal_id):
+        result = 'Error'
+        for meal in self.meal_options:
+            if meal.mealId == meal_id:
+                self.meal_options.remove(meal)
+                result = 'Updated'
+        return result
