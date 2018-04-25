@@ -36,5 +36,29 @@ class Login(Resource):
         if result == 'logged_in':
             return make_response(jsonify({"message": "Successfull login"}), 200)
 
+meal_parser = reqparse.RequestParser()
+meal_parser.add_argument('name')
+meal_parser.add_argument('price')
+class Meals(Resource):
+    def get(self):
+        options = bam_application.get_meal_options()
+        meals = []
+        for option in options:
+            meals.append({'name': option.name, 'price': option.price})
+
+        return make_response(jsonify(meals), 200)
+
+    def post(self):
+        data = meal_parser.parse_args()
+        name = data['name']
+        price = data['price']
+        meal_option = bamApp.MealOption(name, price)
+        result = bam_application.add_meal_option(meal_option)
+        print(result)
+        if result == 'added':
+            return make_response(jsonify({"message": "Successfull addition"}), 201)
+
+
 api.add_resource(SignUp, '/api/v1/auth/signup')
 api.add_resource(Login, '/api/v1/auth/login')
+api.add_resource(Meals, '/api/v1/meals')

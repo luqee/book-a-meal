@@ -49,7 +49,6 @@ class BamApiTestCase(unittest.TestCase):
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 201)
         self.assertEqual(result['message'] ==  'Successfull addition')
-        self.assertTrue(type(result['meal_opt_id']) == int)
 
     def test_get_meal_option(self):
         """Test get meal option functionality .
