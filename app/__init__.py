@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify, make_response
 from flask_restful import Resource, Api, reqparse
+from webargs import fields
+from webargs.flaskparser import use_args
+
 from app import bamApp
 
 app = Flask(__name__)
@@ -39,12 +42,14 @@ class Login(Resource):
 meal_parser = reqparse.RequestParser()
 meal_parser.add_argument('name')
 meal_parser.add_argument('price')
+
+meal_args = {'mealId': fields.Int(required=True)}
 class Meals(Resource):
     def get(self):
         options = bam_application.get_meal_options()
         meals = []
         for option in options:
-            meals.append({'name': option.name, 'price': option.price})
+            meals.append({'name': option.name, 'price': option.price, 'mealId': option.mealId })
 
         return make_response(jsonify(meals), 200)
 
@@ -57,6 +62,21 @@ class Meals(Resource):
         print(result)
         if result == 'added':
             return make_response(jsonify({"message": "Successfull addition"}), 201)
+        elif result == 'Meal exists':
+            return make_response(jsonify({"message": "Meal exists"}), 200)
+
+    @use_args(meal_args)
+    def put(self, args):
+        # print('args value ; '+ str(args['mealId']))
+        data = meal_parser.parse_args()
+        name = data['name']
+        price = data['price']
+        meal_option = bamApp.MealOption(name, price)
+        result = bam_application.update_meal_options(args['mealId'], meal_option)
+        if result == 'Updated':
+            return make_response(jsonify({"message": "Successful update"}), 201)
+
+
 
 
 api.add_resource(SignUp, '/api/v1/auth/signup')

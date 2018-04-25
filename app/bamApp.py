@@ -5,7 +5,9 @@ class User():
         self.password = password
 
 class MealOption():
+
     def __init__(self, name, price):
+        self.mealId = 0
         self.name = name
         self.price = price
 
@@ -42,10 +44,23 @@ class BamApplication():
 
     def add_meal_option(self, meal):
         result = ''
-        if meal not in self.meal_options:
+        if meal.name in [option.name for option in self.meal_options ]:
+            result = 'Meal exists'
+        else:
+            meal.mealId = len(self.meal_options) +1
+            print(meal.mealId)
             self.meal_options.append(meal)
             result = 'added'
         return result
 
     def get_meal_options(self):
         return self.meal_options
+
+    def update_meal_options(self, meal_id, meal_opt):
+        result = 'Error'
+        for meal in self.meal_options:
+            if meal.mealId == meal_id:
+                meal.name = meal_opt.name
+                meal.price = meal_opt.price
+                result = 'Updated'
+        return result
