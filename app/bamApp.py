@@ -16,7 +16,7 @@ class BamApplication():
 
     def __init__(self):
         #list of meal options representing the day's menu
-        self.munu_for_the_day = []
+        self.menu_for_the_day = []
         # list of registered users
         self.registered_users = []
         # list of logged in users
@@ -72,3 +72,14 @@ class BamApplication():
                 self.meal_options.remove(meal)
                 result = 'Updated'
         return result
+
+    def set_menu(self, meal_ids):
+        result = 'Error'
+        for meal in self.meal_options:
+            if meal.mealId in [int(id) for id in meal_ids]:
+                self.menu_for_the_day.append(meal)
+                result = 'menu set'
+        return result
+
+    def get_menu_for_the_day(self):
+        return self.menu_for_the_day

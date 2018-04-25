@@ -82,9 +82,30 @@ class Meals(Resource):
         if result == 'Deleted':
             return make_response(jsonify({"message": "Successful removal"}), 201)
 
+menu_parser = reqparse.RequestParser()
+menu_parser.add_argument('meal_id', action='append')
+class Menu(Resource):
+    def get(self):
+        result = bam_application.get_menu_for_the_day()
+        menu_items = []
+        for option in result:
+            menu_items.append({'name': option.name, 'price': option.price})
+
+        return make_response(jsonify(menu_items), 200)
+
+    def post(self):
+        data = menu_parser.parse_args()
+        meal_opt_ids = data['meal_id']
+        result = bam_application.set_menu(meal_opt_ids)
+        print(result)
+        if result == 'menu set':
+            return make_response(jsonify({'message': 'Successfull setting of menu'}), 200)
+        elif result == 'Error':
+            return make_response(jsonify({'message': 'Try again'}), 200)
 
 
 
 api.add_resource(SignUp, '/api/v1/auth/signup')
 api.add_resource(Login, '/api/v1/auth/login')
 api.add_resource(Meals, '/api/v1/meals', methods=['POST', 'GET', 'PUT', 'DELETE'])
+api.add_resource(Menu, '/api/v1/menu')

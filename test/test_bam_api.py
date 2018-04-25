@@ -104,7 +104,7 @@ class BamApiTestCase(unittest.TestCase):
         response = self.app.get('api/v1/menu')
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(type(result['menu']), list)
+        self.assertEqual(type(result['menu_items']), list)
 
     def test_order_from_meal_option(self):
         """Test for successful meal option selection.
