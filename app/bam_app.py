@@ -1,25 +1,6 @@
-class User():
-    """A class that model's a user."""
-    def __init__(self, username, email, password):
-        self.username = username
-        self.email = email
-        self.password = password
+from app.models import mealoption, menu, order, user
 
-class MealOption():
-    """A class that models a meal option."""
-    def __init__(self, name, price):
-        self.mealId = ''
-        self.name = name
-        self.price = price
-
-class Order():
-    """A class that models an order."""
-    def __init__(self, user_name):
-        self.orderId = 0
-        self.user_name = user_name
-        self.meal_option = ''
-
-class BamApplication():
+def BamApplication():
     """Book-a-meal application.
 
     This class models the Book-a-meal application.
@@ -34,16 +15,18 @@ class BamApplication():
         self.orders_list = []
 
 
-    def signup_user(self, user):
+    def signup_user(self, username, email, password):
         """Sign up method.
 
         This method checks if the passed in user is already registered
         and if not, the user is registered.
         """
-        if user not in self.registered_users:
-            self.registered_users.append(user)
-            return 'registered'
-        return 'User exists'
+        for user in self.registered_users:
+            if user.email == email:
+                return 'User exists'
+        new_user = user.User(username, email, password)
+        self.registered_users.append(new_user)
+        return 'registered'
 
     def login_user(self, email, password):
         """Login method.
@@ -59,7 +42,7 @@ class BamApplication():
                     result = 'logged_in'
         return result
 
-    def add_meal_option(self, meal):
+    def add_meal_option(self, name, price):
         """Add meal method.
 
         This method recieves e meal item and checks if it already exists
@@ -67,12 +50,14 @@ class BamApplication():
         the email exists and the password matches.
         """
         result = ''
-        if meal.name in [option.name for option in self.meal_options]:
+        if name in [option.name for option in self.meal_options]:
             result = 'Meal exists'
-        else:
-            meal.mealId = len(self.meal_options) +1
-            self.meal_options.append(meal)
-            result = 'added'
+        meal_option = mealoption.MealOption()
+        meal_option.meal_id = len(self.meal_options) +1
+        meal_option.name = name
+        meal_option.price = price
+        self.meal_options.append(meal_option)
+        result = 'added'
         return result
 
     def get_meal_options(self):
@@ -82,7 +67,7 @@ class BamApplication():
         """
         return self.meal_options
 
-    def update_meal_options(self, meal_id, meal_opt):
+    def update_meal_options(self, meal_id, name, price):
         """Update meals method.
 
         This method recieves the meal id and meal option object
@@ -91,9 +76,9 @@ class BamApplication():
         """
         result = 'Error'
         for meal in self.meal_options:
-            if meal.mealId == meal_id:
-                meal.name = meal_opt.name
-                meal.price = meal_opt.price
+            if meal.meal_id == meal_id:
+                meal.name = name
+                meal.price = price
                 result = 'Updated'
         return result
 
@@ -105,7 +90,7 @@ class BamApplication():
         """
         result = 'Error'
         for meal in self.meal_options:
-            if meal.mealId == meal_id:
+            if meal.meal_id == meal_id:
                 self.meal_options.remove(meal)
                 result = 'Deleted'
         return result
@@ -120,7 +105,7 @@ class BamApplication():
         selected_meals = []
         for id in [int(id) for id in meal_ids]:
             for meal in self.meal_options:
-                if meal.mealId == id:
+                if meal.meal_id == id:
                     selected_meals.append(meal)
         self.menu_for_the_day = selected_meals
         result = 'menu set'
@@ -143,7 +128,7 @@ class BamApplication():
         """
         result = ''
         for meal in self.menu_for_the_day:
-            if meal.mealId == int(opt_id):
+            if meal.meal_id == int(opt_id):
                 order = Order(username)
                 order.meal_option = meal
                 order.orderId = len(self.orders_list) + 1
@@ -166,7 +151,7 @@ class BamApplication():
         result = ''
         meal = self.get_meal_option(option_id)
         for order in self.orders_list:
-            if order.orderId == order_id:
+            if order.order_id == order_id:
                 order.meal_option = meal
                 result = 'Success'
         return result
@@ -178,5 +163,5 @@ class BamApplication():
     def get_meal_option(self, opt_id):
         """Get meal option method."""
         for meal in self.meal_options:
-            if meal.mealId == opt_id:
+            if meal.meal_id == opt_id:
                 return meal
