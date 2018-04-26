@@ -1,17 +1,15 @@
 import unittest
-import sys
-#when using python to run tests this is needed
-# sys.path.insert(0, '/home/ludaone/andela/book-a-meal')
-
-from app import app
 import json
 
+from app import app
+
 class BamApiTestCase(unittest.TestCase):
+    """BAM application test case"""
 
     def setUp(self):
         app.testing = True
         self.app = app.test_client()
-        self.user = {"username":"luke", "email":"luke@gmail.com","password":"12345"}
+        self.user = {"username":"luke", "email":"luke@gmail.com", "password":"12345"}
         self.meal_option = {'name': 'Fish & chips', 'price': '345'}
         self.meal_option_list = [{'name': 'Ugali & nyama'}, {'name': 'chapati dunga'}]
         self.selected_meal_option_list = [{'name': 'chapati dunga'}]
@@ -22,7 +20,7 @@ class BamApiTestCase(unittest.TestCase):
 
         This test checks in the response for message and user id keys.
         """
-        response = self.app.post('/api/v1/auth/signup', data = json.dumps(self.user) , content_type = 'application/json')
+        response = self.app.post('/api/v1/auth/signup', data=json.dumps(self.user), content_type='application/json')
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 201)
         self.assertTrue(result["message"] == "Successfull signup")
@@ -35,7 +33,7 @@ class BamApiTestCase(unittest.TestCase):
         a key 'message'.
         """
         with self.app.app_context():
-            response = self.app.post('/api/v1/auth/login', data = json.dumps({'username': self.user['username'], 'password': self.user['password']}) , content_type = 'application/json')
+            response = self.app.post('/api/v1/auth/login', data=json.dumps({'username': self.user['username'], 'password': self.user['password']}), content_type='application/json')
             result = json.loads(response.data.decode('utf-8'))
             self.assertEqual(response.status_code, 200)
             self.assertTrue(result["message"] == "Successfull login")

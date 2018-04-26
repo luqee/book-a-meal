@@ -58,7 +58,6 @@ class Login(Resource):
         email = data['email']
         password = data['password']
         result = bam_application.login_user(email, password)
-        print(result)
         if result == 'logged_in':
             return make_response(jsonify({"message": "Successfull login"}), 200)
 
@@ -81,7 +80,7 @@ class Meals(Resource):
         options = bam_application.get_meal_options()
         meals = []
         for option in options:
-            meals.append({'name': option.name, 'price': option.price, 'mealId': option.mealId })
+            meals.append({'name': option.name, 'price': option.price, 'mealId': option.mealId})
 
         return make_response(jsonify(meals), 200)
 
@@ -99,7 +98,6 @@ class Meals(Resource):
         price = data['price']
         meal_option = bamApp.MealOption(name, price)
         result = bam_application.add_meal_option(meal_option)
-        print(result)
         if result == 'added':
             return make_response(jsonify({"message": "Successfull addition"}), 201)
         elif result == 'Meal exists':
@@ -150,7 +148,8 @@ class Menu(Resource):
         result = bam_application.get_menu_for_the_day()
         menu_items = []
         for option in result:
-            menu_items.append({'name': option.name, 'price': option.price, 'mealId': option.mealId })
+            menu_items.append({'name': option.name,
+            'price': option.price, 'mealId': option.mealId})
 
         return make_response(jsonify(menu_items), 200)
 
@@ -165,7 +164,6 @@ class Menu(Resource):
         data = menu_parser.parse_args()
         meal_opt_ids = data['meal_id']
         result = bam_application.set_menu(meal_opt_ids)
-        print(result)
         if result == 'menu set':
             return make_response(jsonify({'message': 'Successfull setting of menu'}), 200)
         elif result == 'Error':
@@ -175,8 +173,8 @@ order_parser = reqparse.RequestParser()
 order_parser.add_argument('meal_id')
 
 order_args = {
-'username': fields.Str(),
-'orderId': fields.Int()
+    'username': fields.Str(),
+    'orderId': fields.Int()
 }
 
 class Orders(Resource):
@@ -194,7 +192,8 @@ class Orders(Resource):
         result = bam_application.get_all_orders()
         orders = []
         for order in result:
-            orders.append({'order_by': order.user_name, 'meal': order.meal_option.name, 'order_id': order.orderId})
+            orders.append({'order_by': order.user_name,
+            'meal': order.meal_option.name, 'order_id': order.orderId})
 
         return make_response(jsonify(orders), 200)
 
@@ -210,7 +209,6 @@ class Orders(Resource):
         data = order_parser.parse_args()
         meal_opt_id = data['meal_id']
         result = bam_application.select_meal(meal_opt_id, args['username'])
-        print(result)
         if result == 'Success':
             return make_response(jsonify({'message': 'Order Successfully placed'}), 200)
         elif result == 'Error':

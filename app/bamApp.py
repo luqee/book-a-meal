@@ -8,7 +8,7 @@ class User():
 class MealOption():
     """A class that models a meal option."""
     def __init__(self, name, price):
-        self.mealId = 0
+        self.mealId = ''
         self.name = name
         self.price = price
 
@@ -67,11 +67,10 @@ class BamApplication():
         the email exists and the password matches.
         """
         result = ''
-        if meal.name in [option.name for option in self.meal_options ]:
+        if meal.name in [option.name for option in self.meal_options]:
             result = 'Meal exists'
         else:
             meal.mealId = len(self.meal_options) +1
-            print(meal.mealId)
             self.meal_options.append(meal)
             result = 'added'
         return result
