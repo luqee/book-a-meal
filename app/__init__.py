@@ -89,7 +89,7 @@ class Menu(Resource):
         result = bam_application.get_menu_for_the_day()
         menu_items = []
         for option in result:
-            menu_items.append({'name': option.name, 'price': option.price})
+            menu_items.append({'name': option.name, 'price': option.price, 'mealId': option.mealId })
 
         return make_response(jsonify(menu_items), 200)
 
@@ -103,9 +103,45 @@ class Menu(Resource):
         elif result == 'Error':
             return make_response(jsonify({'message': 'Try again'}), 200)
 
+order_parser = reqparse.RequestParser()
+order_parser.add_argument('meal_id')
+
+order_args = {
+'username': fields.Str(),
+'orderId': fields.Int()
+}
+
+class Orders(Resource):
+    def get(self):
+        result = bam_application.get_all_orders()
+        orders = []
+        for order in result:
+            orders.append({'order_by': order.user_name, 'meal': order.meal_option.name, 'order_id': order.orderId})
+
+        return make_response(jsonify(orders), 200)
+
+    @use_args(order_args)
+    def post(self, args):
+        data = order_parser.parse_args()
+        meal_opt_id = data['meal_id']
+        result = bam_application.select_meal(meal_opt_id, args['username'])
+        print(result)
+        if result == 'Success':
+            return make_response(jsonify({'message': 'Order Successfully placed'}), 200)
+        elif result == 'Error':
+            return make_response(jsonify({'message': 'Try again'}), 200)
+
+    @use_args(order_args)
+    def put(self, args):
+        data = order_parser.parse_args()
+        meal_opt_id = data['meal_id']
+        result = bam_application.update_order(args['orderId'], meal_opt_id)
+        if result == 'Updated':
+            return make_response(jsonify({"message": "Successful update"}), 201)
 
 
 api.add_resource(SignUp, '/api/v1/auth/signup')
 api.add_resource(Login, '/api/v1/auth/login')
 api.add_resource(Meals, '/api/v1/meals', methods=['POST', 'GET', 'PUT', 'DELETE'])
 api.add_resource(Menu, '/api/v1/menu')
+api.add_resource(Orders, '/api/v1/orders')

@@ -5,26 +5,28 @@ class User():
         self.password = password
 
 class MealOption():
-
     def __init__(self, name, price):
         self.mealId = 0
         self.name = name
         self.price = price
 
+class Order():
+    def __init__(self, user_name):
+        self.orderId = 0
+        self.user_name = user_name
+        self.meal_option = ''
+
 class BamApplication():
 
 
     def __init__(self):
-        #list of meal options representing the day's menu
-        self.menu_for_the_day = []
-        # list of registered users
+
+        self.menu_for_the_day = ''
         self.registered_users = []
-        # list of logged in users
         self.online_users = []
-        # list of administrators
         self.admin_users = []
-        # Available meal options
         self.meal_options = []
+        self.orders_list = []
 
 
     def signup_user(self, user):
@@ -75,11 +77,47 @@ class BamApplication():
 
     def set_menu(self, meal_ids):
         result = 'Error'
-        for meal in self.meal_options:
-            if meal.mealId in [int(id) for id in meal_ids]:
-                self.menu_for_the_day.append(meal)
-                result = 'menu set'
+        selected_meals = []
+        for id in [int(id) for id in meal_ids]:
+            for meal in self.meal_options:
+                if meal.mealId == id:
+                    selected_meals.append(meal)
+        self.menu_for_the_day = selected_meals
+        result = 'menu set'
         return result
 
     def get_menu_for_the_day(self):
         return self.menu_for_the_day
+
+    def select_meal(self, opt_id, username):
+        result = ''
+        for meal in self.menu_for_the_day:
+            if meal.mealId == int(opt_id):
+                order = Order(username)
+                order.meal_option = meal
+                order.orderId = len(self.orders_list) + 1
+                
+        for order_item in self.orders_list:
+            if order_item.user_name == username:
+                self.orders_list.remove(order_item)
+
+        self.orders_list.append(order)
+        result = 'Sucess'
+        return result
+
+    def update_order(self, order_id, option_id):
+        result = ''
+        meal = self.get_meal_option(option_id)
+        for order in self.orders_list:
+            if order.orderId == order_id:
+                order.meal_option = meal
+                result = 'Success'
+        return result
+
+    def get_all_orders(self):
+        return self.orders_list
+
+    def get_meal_option(self, opt_id):
+        for meal in self.meal_options:
+            if meal.mealId == opt_id:
+                return meal
