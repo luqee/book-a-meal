@@ -1,14 +1,14 @@
 import unittest
 import json
 
-from app import app
+from app import api
 
 class BamApiTestCase(unittest.TestCase):
     """BAM application test case"""
 
     def setUp(self):
         app.testing = True
-        self.app = app.test_client()
+        self.app = api.app.test_client()
         self.user = {"username":"luke", "email":"luke@gmail.com", "password":"12345"}
         self.meal_option = {'name': 'Fish & chips', 'price': '345'}
         self.meal_option_list = [{'name': 'Ugali & nyama'}, {'name': 'chapati dunga'}]
