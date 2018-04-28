@@ -5,9 +5,9 @@ from webargs.flaskparser import use_args
 
 from app import bam_app
 
-
 app = Flask(__name__)
 api = Api(app)
+
 bam_application = bam_app.BamApplication()
 
 signup_parser = reqparse.RequestParser()
@@ -147,7 +147,7 @@ class Menu(Resource):
         menu_items = []
         for option in result:
             menu_items.append({'name': option.name,
-            'price': option.price, 'mealId': option.mealId})
+            'price': option.price, 'meal_id': option.meal_id})
 
         return make_response(jsonify(menu_items), 200)
 
@@ -191,7 +191,7 @@ class Orders(Resource):
         orders = []
         for order in result:
             orders.append({'order_by': order.user_name,
-            'meal': order.meal_option.name, 'order_id': order.orderId})
+            'meal': order.meal_option.name, 'order_id': order.order_id})
 
         return make_response(jsonify(orders), 200)
 

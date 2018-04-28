@@ -1,6 +1,6 @@
 from app.models import mealoption, menu, order, user
 
-def BamApplication():
+class BamApplication():
     """Book-a-meal application.
 
     This class models the Book-a-meal application.
@@ -52,10 +52,8 @@ def BamApplication():
         result = ''
         if name in [option.name for option in self.meal_options]:
             result = 'Meal exists'
-        meal_option = mealoption.MealOption()
+        meal_option = mealoption.MealOption(name, price)
         meal_option.meal_id = len(self.meal_options) +1
-        meal_option.name = name
-        meal_option.price = price
         self.meal_options.append(meal_option)
         result = 'added'
         return result
@@ -127,18 +125,19 @@ def BamApplication():
         placed in the orders list replacing the previous order by the user.
         """
         result = ''
+        user_order = ''
         for meal in self.menu_for_the_day:
             if meal.meal_id == int(opt_id):
-                order = Order(username)
-                order.meal_option = meal
-                order.orderId = len(self.orders_list) + 1
+                user_order = order.Order(username)
+                user_order.meal_option = meal
+                user_order.order_id = len(self.orders_list) + 1
 
         for order_item in self.orders_list:
             if order_item.user_name == username:
                 self.orders_list.remove(order_item)
-
-        self.orders_list.append(order)
-        result = 'Sucess'
+        if user_order != '':
+            self.orders_list.append(user_order)
+            result = 'Sucess'
         return result
 
     def update_order(self, order_id, option_id):
